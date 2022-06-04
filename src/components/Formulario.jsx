@@ -15,7 +15,7 @@ const Formulario = ({ setFilter, setPage }) => {
         await setFilter(`/?${'name=' + name}&${'species=' + species}&${'status=' + status}&${'gender=' + gender}&page=1`)
         document.querySelector('#btnBuscar').disabled = false;
     }
-    
+
     return (
         <form className="row g mt-3 mb-3 from-div rounded rounded animate__animated animate__fadeIn" onSubmit={HendelSubmit}>
             <div className="row align-self-center">
@@ -57,8 +57,12 @@ const Formulario = ({ setFilter, setPage }) => {
                     </select>
                     <label htmlFor="gender" className="forn-label ">Genero:</label>
                 </div>
-                <div className="d-flex justify-content-end bd-highlight col mt-4">
-                    <Button className="mb-3 px-5" id="btnBuscar" type="submit">Buscar</Button>
+                <div className="d-flex justify-content-end bd-highlight col mt-2">
+                    <div className='d-flex flex-column'>
+                        <Button className="mb-1 px-5" id="btnBuscar" type="submit">Buscar</Button>
+                        <Button className="mb-2" href="/opniones">Opniones</Button>
+                    </div>
+
                 </div>
             </div>
         </form>

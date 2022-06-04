@@ -5,7 +5,6 @@ import ModalPersonaje from './modals/ModalPersonaje'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import ItemsPages from './ItemsPages'
-import {firebase} from '../firebase'
 
 const Principal = () => {
     const [listaPersonajes, setListaPersonajes] = React.useState([])
@@ -27,6 +26,7 @@ const Principal = () => {
                         species,
                         status
                     }))
+
                     setCountPages(res.data.info.pages)
                     setListaPersonajes(listPersonajesRestult);
                 }
@@ -39,31 +39,8 @@ const Principal = () => {
                 console.error(err)
             })
         }
-        if (filter!=='/?name=&species=&status=&gender=&page=1'){
-            buscar()
-        }
+        buscar()
     }, [filter]);
-
-    React.useEffect(() => {
-        const obtenerDatos= async () =>{
-            try{
-                const db = firebase.firestore()
-                const data = await db.collection('HistorialBusqueda').get()
-                const arrayData= data.docs.map(item => (
-                    {
-                        id:item.id, ...item.data()
-                    }
-                ))
-                console.log(arrayData)
-
-                //setListaFrutas(arrayData)
-
-            }catch(error){
-                console.log(error)
-            }
-        }
-        obtenerDatos();
-    }, []);
 
     const newPage = (newPage) => {
         const index = page >= 10 ? 2 : 1
@@ -81,7 +58,7 @@ const Principal = () => {
     }
 
     return (
-        <div className=" container ">
+        <div className="container">
             <ModalPersonaje
                 showModal={showModalPersonaje}
                 hendelModal={hendelSelect}
