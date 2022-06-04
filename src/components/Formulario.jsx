@@ -15,9 +15,7 @@ const Formulario = ({ setFilter, setPage }) => {
         await setFilter(`/?${'name=' + name}&${'species=' + species}&${'status=' + status}&${'gender=' + gender}&page=1`)
         document.querySelector('#btnBuscar').disabled = false;
     }
-
-
-
+    
     return (
         <form className="row g mt-3 mb-3 from-div rounded rounded animate__animated animate__fadeIn" onSubmit={HendelSubmit}>
             <div className="row align-self-center">
