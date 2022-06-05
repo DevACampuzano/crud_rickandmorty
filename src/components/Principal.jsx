@@ -92,7 +92,7 @@ const Principal = () => {
                     <div className="d-flex justify-content-end bd-highlight col mt-2">
                         <div className='d-flex flex-column'>
                             <Button className="mb-1 px-5" id="btnBuscar" type="submit">Buscar</Button>
-                            <Button className="mb-2 btn-dark" href="/opniones">Opniones</Button>
+                            <Button className="mb-2 btn-dark" href="/opiniones">Opniones</Button>
                         </div>
 
                     </div>

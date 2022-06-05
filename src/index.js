@@ -9,7 +9,7 @@ ReactDOM.render(
     <BrowserRouter>
         <Routes>
             <Route path='/' element={<Principal/>} />
-            <Route path='/opniones' element={<ListaOpiniones/>} />
+            <Route path='/opiniones' element={<ListaOpiniones/>} />
         </Routes>
     </BrowserRouter>,
     document.getElementById('root')
