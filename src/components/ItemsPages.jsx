@@ -4,7 +4,7 @@ import { Card, Nav } from 'react-bootstrap'
 const ItemsPages = ({ countPages, page, newPage }) => {
     return (
         <>
-            <Card.Footer className="scrollbar ">
+            <Card.Footer className="scrollbar animate__animated animate__fadeIn">
                 <Nav aria-label="Page navigation">
                     <ul className="pagination pagination">
                         {

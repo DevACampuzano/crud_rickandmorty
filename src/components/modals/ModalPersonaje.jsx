@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap'
 import { firebase } from '../../firebase'
 import Swal from 'sweetalert2'
 
-const ModalPersonaje = ({ hendelModal, showModal, personajeSelect }) => {
+const ModalPersonaje = ({ hendelModal, showModal, personajeSelect, edit, setFlag }) => {
     const [opinion, setOption] = React.useState('')
     const cancelar = () => {
         setOption('')
@@ -30,8 +30,8 @@ const ModalPersonaje = ({ hendelModal, showModal, personajeSelect }) => {
         }
 
         const db = firebase.firestore()
-        const data = await db.collection('OpinionesPersonajes').where('idcharacter','==',id).get()
-        
+        const data = await db.collection('OpinionesPersonajes').where('idcharacter', '==', id).get()
+
         if (data.docs.length > 0) {
             Swal.fire({
                 icon: 'error',
@@ -42,8 +42,8 @@ const ModalPersonaje = ({ hendelModal, showModal, personajeSelect }) => {
             btnCancelar.disabled = false;
             return
         }
-        
-        
+
+
         const newOption = {
             idcharacter: id,
             image,
@@ -64,6 +64,70 @@ const ModalPersonaje = ({ hendelModal, showModal, personajeSelect }) => {
             text: 'La opinion se registro Exitosamente.'
         })
     }
+
+    const editarPersonaje = async () => {
+        const btnEditar = document.getElementById('btnEditar');
+        const btnCancelar = document.getElementById('btnCancelar');
+        try {
+
+            btnEditar.disabled = true;
+            btnCancelar.disabled = true;
+
+            const { idcharacter, image, name, status, species, gender, id } = personajeSelect
+
+            if (!opinion) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Debe Ingresar una opinion valida.'
+                })
+                btnEditar.disabled = false;
+                btnCancelar.disabled = false;
+                return;
+            }
+
+            const db = firebase.firestore()
+            await db.collection('OpinionesPersonajes').doc(id).update({
+                idcharacter,
+                image,
+                name,
+                status,
+                species,
+                gender,
+                opinion
+            });
+
+            setFlag(Math.random())
+
+            btnEditar.disabled = false;
+            btnCancelar.disabled = false;
+            cancelar()
+            Swal.fire({
+                icon: 'success',
+                title: 'Editado',
+                text: 'La opinion se actualizo Exitosamente.'
+            })
+        } catch (error) {
+            console.error(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error
+            })
+            btnEditar.disabled = false;
+            btnCancelar.disabled = false;
+        }
+    }
+
+    React.useEffect(() => {
+        const iniEdit = () => {
+            if (edit && Object.keys(personajeSelect).length > 0) {
+                setOption(personajeSelect.opinion)
+            }
+        }
+        iniEdit()
+    }, [edit, personajeSelect])
+
 
     return (
         <Modal show={showModal} onHide={cancelar}>
@@ -123,7 +187,10 @@ const ModalPersonaje = ({ hendelModal, showModal, personajeSelect }) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={resgisterPersonaje} id="btnRegistrar">Registrar</Button>
+                {
+                    edit ? <Button onClick={editarPersonaje} id="btnEditar" className="btn-warning">Editar</Button> : <Button onClick={resgisterPersonaje} id="btnRegistrar" className="btn-success">Registrar</Button>
+                }
+
                 <Button onClick={cancelar} className="btn-danger" id="btnCancelar">Cancelar</Button>
             </Modal.Footer>
         </Modal>
